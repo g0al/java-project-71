@@ -19,11 +19,10 @@ public class App implements Runnable {
     private String filepath2;
 
     /**
-     *Javadoc
+     * Javadoc.
      *
      * @author g0al
      *
-     * @version 1.0
      */
     @Override
     public void run() {
