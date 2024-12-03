@@ -25,35 +25,55 @@ public class Diff {
     }
 
     /**
-     * Javadoc
+     *Javadoc
+     *
+     * @author g0al
+     *
+     * @version 1.0
      */
     public Map<String, MapDifference.ValueDifference<Object>> getEntriesDiffering() {
         return entriesDiffering;
     }
 
     /**
-     * Javadoc
+     *Javadoc
+     *
+     * @author g0al
+     *
+     * @version 1.0
      */
     public Map<String, Object> getEntriesOnlyOnRight() {
         return entriesOnlyOnRight;
     }
 
     /**
-     * Javadoc
+     *Javadoc
+     *
+     * @author g0al
+     *
+     * @version 1.0
      */
     public Map<String, Object> getEntriesOnlyOnLeft() {
         return entriesOnlyOnLeft;
     }
 
     /**
-     * Javadoc
+     *Javadoc
+     *
+     * @author g0al
+     *
+     * @version 1.0
      */
     public Map<String, Object> getEntriesInCommon() {
         return entriesInCommon;
     }
 
     /**
-     * Javadoc
+     *Javadoc
+     *
+     * @author g0al
+     *
+     * @version 1.0
      */
     public TreeSet<String> getUniqueKeys() {
         return uniqueKeys;
