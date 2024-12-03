@@ -24,22 +24,37 @@ public class Diff {
         this.uniqueKeys = set1;
     }
 
+    /**
+     * Javadoc
+     */
     public Map<String, MapDifference.ValueDifference<Object>> getEntriesDiffering() {
         return entriesDiffering;
     }
 
+    /**
+     * Javadoc
+     */
     public Map<String, Object> getEntriesOnlyOnRight() {
         return entriesOnlyOnRight;
     }
 
+    /**
+     * Javadoc
+     */
     public Map<String, Object> getEntriesOnlyOnLeft() {
         return entriesOnlyOnLeft;
     }
 
+    /**
+     * Javadoc
+     */
     public Map<String, Object> getEntriesInCommon() {
         return entriesInCommon;
     }
 
+    /**
+     * Javadoc
+     */
     public TreeSet<String> getUniqueKeys() {
         return uniqueKeys;
     }
