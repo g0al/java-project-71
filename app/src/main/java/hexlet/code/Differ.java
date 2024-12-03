@@ -31,7 +31,7 @@ public class Differ {
                         new TypeReference<>() {
                         });
                 return Parser.parse(firstFileMap, secondFileMap, format);
-            } else if (ext1.equals("yaml")) {
+            } else if (ext1.equals("yaml") || ext1.equals("yml")) {
                 Yaml yaml = new Yaml();
                 Map<String, Object> firstFileMap = yaml.load(Files.readString(path1));
                 Map<String, Object> secondFileMap = yaml.load(Files.readString(path2));
