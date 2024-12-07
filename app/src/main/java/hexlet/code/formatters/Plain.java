@@ -1,17 +1,19 @@
 package hexlet.code.formatters;
 
-import hexlet.code.Diff;
 import com.google.common.primitives.Primitives;
+import java.util.List;
+import java.util.Map;
 
 public class Plain {
-    public static String plain(Diff diff) {
+    public static String plain(List<Map<String, Object>> diff) {
         var result = new StringBuilder();
-        for (var el : diff.getUniqueKeys()) {
-            if (diff.getEntriesDiffering().containsKey(el)) {
-                var left = diff.getEntriesDiffering().get(el).leftValue();
-                var right = diff.getEntriesDiffering().get(el).rightValue();
+
+        for (var el : diff) {
+            if (el.get("status").equals("changed")) {
+                var left = el.get("firstValue");
+                var right = el.get("secondValue");
                 result.append("Property '")
-                        .append(el)
+                        .append(el.get("key"))
                         .append("' was updated. From ")
                         .append(isStringValue(left) ? "'" : "")
                         .append(isPrimitiveValue(left) ? left : "[complex value]")
@@ -21,18 +23,18 @@ public class Plain {
                         .append(isPrimitiveValue(right) ? right : "[complex value]")
                         .append(isStringValue(right) ? "'" : "")
                         .append(System.lineSeparator());
-            } else if (diff.getEntriesOnlyOnRight().containsKey(el)) {
-                var only = diff.getEntriesOnlyOnRight().get(el);
+            } else if (el.get("status").equals("added")) {
+                var secondValue = el.get("secondValue");
                 result.append("Property '")
-                        .append(el)
+                        .append(el.get("key"))
                         .append("' was added with value: ")
-                        .append(isStringValue(only) ? "'" : "")
-                        .append(isPrimitiveValue(only) ? only : "[complex value]")
-                        .append(isStringValue(only) ? "'" : "")
+                        .append(isStringValue(secondValue) ? "'" : "")
+                        .append(isPrimitiveValue(secondValue) ? secondValue : "[complex value]")
+                        .append(isStringValue(secondValue) ? "'" : "")
                         .append(System.lineSeparator());
-            } else if (diff.getEntriesOnlyOnLeft().containsKey(el)) {
+            } else if (el.get("status").equals("removed")) {
                 result.append("Property '")
-                        .append(el)
+                        .append(el.get("key"))
                         .append("' was removed")
                         .append(System.lineSeparator());
             }

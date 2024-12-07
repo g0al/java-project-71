@@ -1,40 +1,41 @@
 package hexlet.code.formatters;
 
-import hexlet.code.Diff;
+import java.util.List;
+import java.util.Map;
 
 public class Stylish {
-    public static String stylish(Diff diff) {
+    public static String stylish(List<Map<String, Object>> diff) {
         var result = new StringBuilder();
         result.append("{").append(System.lineSeparator());
-        for (var el : diff.getUniqueKeys()) {
-            if (diff.getEntriesDiffering().containsKey(el)) {
+        for (var el : diff) {
+            if (el.get("status").equals("changed")) {
                 result.append("  - ")
-                        .append(el)
+                        .append(el.get("key"))
                         .append(": ")
-                        .append(diff.getEntriesDiffering().get(el).leftValue())
+                        .append(el.get("firstValue"))
                         .append(System.lineSeparator());
                 result.append("  + ")
-                        .append(el)
+                        .append(el.get("key"))
                         .append(": ")
-                        .append(diff.getEntriesDiffering().get(el).rightValue())
+                        .append(el.get("secondValue"))
                         .append(System.lineSeparator());
-            } else if (diff.getEntriesOnlyOnRight().containsKey(el)) {
+            } else if (el.get("status").equals("added")) {
                 result.append("  + ")
-                        .append(el)
+                        .append(el.get("key"))
                         .append(": ")
-                        .append(diff.getEntriesOnlyOnRight().get(el))
+                        .append(el.get("secondValue"))
                         .append(System.lineSeparator());
-            } else if (diff.getEntriesOnlyOnLeft().containsKey(el)) {
+            } else if (el.get("status").equals("removed")) {
                 result.append("  - ")
-                        .append(el)
+                        .append(el.get("key"))
                         .append(": ")
-                        .append(diff.getEntriesOnlyOnLeft().get(el))
+                        .append(el.get("firstValue"))
                         .append(System.lineSeparator());
-            } else if (diff.getEntriesInCommon().containsKey(el)) {
+            } else if (el.get("status").equals("unchanged")) {
                 result.append("    ")
-                        .append(el)
+                        .append(el.get("key"))
                         .append(": ")
-                        .append(diff.getEntriesInCommon().get(el))
+                        .append(el.get("firstValue"))
                         .append(System.lineSeparator());
             }
         }

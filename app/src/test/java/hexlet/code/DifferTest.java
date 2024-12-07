@@ -10,13 +10,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 class DifferTest {
-
-    private static String resultJson;
-    private static String resultJson2;
-    private static String resultYaml;
-    private static String resultYaml2;
-    private static String resultPlainJson;
-    private static String resultPlainYaml;
+    private static String resultNotFlatJson;
+    private static String resultNotFlatYaml;
+    private static String resultPlainFormatter;
+    private static String resultStylishFormatter;
+    private static String resultJsonFormatter;
 
     private static Path getFixturePath(String fileName) {
         return Paths.get("src", "test", "resources", "fixtures", fileName)
@@ -30,20 +28,11 @@ class DifferTest {
 
     @BeforeAll
     public static void beforeAll() throws Exception {
-        resultJson = readFixture("result_json.txt");
-        resultJson2 = readFixture("result_json2.json");
-        resultYaml = readFixture("result_yaml.txt");
-        resultYaml2 = readFixture("result_yaml2.txt");
-        resultPlainJson = readFixture("result_plain_json.txt");
-        resultPlainYaml = readFixture("result_plain_yaml.txt");
-    }
-
-    @Test
-    public void testFlatJson() throws Exception {
-        String filepath1 = "src/test/resources/file1.json";
-        String filepath2 = "src/test/resources/file2.json";
-        String diff = Differ.generate(filepath1, filepath2);
-        assertEquals(resultJson, diff);
+        resultNotFlatJson = readFixture("result_json.txt");
+        resultNotFlatYaml = readFixture("result_yaml.txt");
+        resultStylishFormatter = readFixture("result_stylish_formatter.txt");
+        resultPlainFormatter = readFixture("result_plain_formatter.txt");
+        resultJsonFormatter = readFixture("result_json_formatter.txt");
     }
 
     @Test
@@ -51,15 +40,7 @@ class DifferTest {
         String filepath1 = "src/test/resources/file3.json";
         String filepath2 = "src/test/resources/file4.json";
         String diff = Differ.generate(filepath1, filepath2);
-        assertEquals(resultJson2, diff);
-    }
-
-    @Test
-    public void testFlatYaml() throws Exception {
-        String filepath1 = "src/test/resources/file1.yaml";
-        String filepath2 = "src/test/resources/file2.yaml";
-        String diff = Differ.generate(filepath1, filepath2);
-        assertEquals(resultYaml, diff);
+        assertEquals(resultNotFlatJson, diff);
     }
 
     @Test
@@ -67,22 +48,30 @@ class DifferTest {
         String filepath1 = "src/test/resources/file3.yaml";
         String filepath2 = "src/test/resources/file4.yaml";
         String diff = Differ.generate(filepath1, filepath2);
-        assertEquals(resultYaml2, diff);
+        assertEquals(resultNotFlatYaml, diff);
     }
 
     @Test
-    public void testNotFlatPlainJson() throws Exception {
+    public void testPlainFormatter() throws Exception {
         String filepath1 = "src/test/resources/file3.json";
         String filepath2 = "src/test/resources/file4.json";
         String diff = Differ.generate(filepath1, filepath2, "plain");
-        assertEquals(resultPlainJson, diff);
+        assertEquals(resultPlainFormatter, diff);
     }
 
     @Test
-    public void testNotFlatPlainYaml() throws Exception {
+    public void testStylishFormatter() throws Exception {
         String filepath1 = "src/test/resources/file3.yaml";
         String filepath2 = "src/test/resources/file4.yaml";
-        String diff = Differ.generate(filepath1, filepath2, "plain");
-        assertEquals(resultPlainYaml, diff);
+        String diff = Differ.generate(filepath1, filepath2, "stylish");
+        assertEquals(resultStylishFormatter, diff);
+    }
+
+    @Test
+    public void testJsonFormatter() throws Exception {
+        String filepath1 = "src/test/resources/file3.json";
+        String filepath2 = "src/test/resources/file4.json";
+        String diff = Differ.generate(filepath1, filepath2, "json");
+        assertEquals(resultJsonFormatter, diff);
     }
 }

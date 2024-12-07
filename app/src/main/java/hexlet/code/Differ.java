@@ -8,6 +8,7 @@ import org.yaml.snakeyaml.Yaml;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Differ {
@@ -21,20 +22,20 @@ public class Differ {
 
         if (Files.exists(path1) && Files.exists(path2)) {
             if (!ext1.equals(ext2)) {
-                System.out.println("Файлы имеют различные расширения.");
+                throw new Exception("Extensions of files does not match.");
             } else if (ext1.equals("json")) {
                 ObjectMapper mapper = new ObjectMapper();
-                Map<String, Object> firstFileMap = mapper.readValue(Files.readString(path1),
+                HashMap<String, Object> firstFileMap = mapper.readValue(Files.readString(path1),
                         new TypeReference<>() {
                         });
-                Map<String, Object> secondFileMap = mapper.readValue(Files.readString(path2),
+                HashMap<String, Object> secondFileMap = mapper.readValue(Files.readString(path2),
                         new TypeReference<>() {
                         });
                 return Parser.parse(firstFileMap, secondFileMap, format);
             } else if (ext1.equals("yaml") || ext1.equals("yml")) {
                 Yaml yaml = new Yaml();
-                Map<String, Object> firstFileMap = yaml.load(Files.readString(path1));
-                Map<String, Object> secondFileMap = yaml.load(Files.readString(path2));
+                HashMap<String, Object> firstFileMap = yaml.load(Files.readString(path1));
+                HashMap<String, Object> secondFileMap = yaml.load(Files.readString(path2));
                 return Parser.parse(firstFileMap, secondFileMap, format);
             }
         } else {
