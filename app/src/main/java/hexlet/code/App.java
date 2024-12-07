@@ -7,7 +7,7 @@ import picocli.CommandLine.Parameters;
 
 @Command(name = "gendiff", mixinStandardHelpOptions = true, version = "helloWorld 1.0",
         description = "Compares two configuration files and shows a difference.")
-public class App implements Runnable {
+public final class App implements Runnable {
 
     @Option(names = "-f", defaultValue = "stylish",
             paramLabel = "format", description = "output format [default: ${DEFAULT-VALUE}]")
@@ -18,12 +18,6 @@ public class App implements Runnable {
     @Parameters(paramLabel = "filepath2", description = "path to second file")
     private String filepath2;
 
-    /**
-     * Javadoc.
-     *
-     * @author g0al
-     *
-     */
     @Override
     public void run() {
         try {
