@@ -1,5 +1,5 @@
 run-dist:
-	@./build/install/app/bin/app -f="plain" src/main/resources/file1.json src/main/resources/file2.json
+	@./build/install/app/bin/app -f="plain" src/main/resources/file3.json src/main/resources/file4.json
 
 help:
 	@./build/install/app/bin/app -h
