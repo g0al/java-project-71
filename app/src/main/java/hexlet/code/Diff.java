@@ -11,8 +11,8 @@ import java.util.TreeSet;
 
 public class Diff {
     public static List<Map<String, Object>> diff(List<Map<String, Object>> data) {
-        var map1 = data.getFirst();
-        var map2 = data.getLast();
+        var map1 = data.get(0);
+        var map2 = data.get(1);
 
         var set1 = new TreeSet<>(map1.keySet());
         var set2 = new TreeSet<>(map2.keySet());
