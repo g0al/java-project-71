@@ -8,9 +8,7 @@ import java.util.Map;
 
 public class Json {
     public static String json(List<Map<String, Object>> diff) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapperBuilder()
-                .preserveOrder()
-                .build();
+        ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(diff);
     }
 }

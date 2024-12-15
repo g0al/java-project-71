@@ -10,27 +10,21 @@ public class Plain {
 
         for (var el : diff) {
             if (el.get("status").equals("changed")) {
-                var left = el.get("firstValue");
-                var right = el.get("secondValue");
+                var value1 = el.get("value1");
+                var value2 = el.get("value2");
                 result.append("Property '")
                         .append(el.get("key"))
                         .append("' was updated. From ")
-                        .append(isStringValue(left) ? "'" : "")
-                        .append(isPrimitiveValue(left) ? left : "[complex value]")
-                        .append(isStringValue(left) ? "'" : "")
+                        .append(getValue(value1))
                         .append(" to ")
-                        .append(isStringValue(right) ? "'" : "")
-                        .append(isPrimitiveValue(right) ? right : "[complex value]")
-                        .append(isStringValue(right) ? "'" : "")
+                        .append(getValue(value2))
                         .append(System.lineSeparator());
             } else if (el.get("status").equals("added")) {
-                var secondValue = el.get("secondValue");
+                var value = el.get("value");
                 result.append("Property '")
                         .append(el.get("key"))
                         .append("' was added with value: ")
-                        .append(isStringValue(secondValue) ? "'" : "")
-                        .append(isPrimitiveValue(secondValue) ? secondValue : "[complex value]")
-                        .append(isStringValue(secondValue) ? "'" : "")
+                        .append(getValue(value))
                         .append(System.lineSeparator());
             } else if (el.get("status").equals("removed")) {
                 result.append("Property '")
@@ -42,18 +36,15 @@ public class Plain {
         return result.toString().trim();
     }
 
-    public static <T> boolean isPrimitiveValue(T str) {
-        if (str != null) {
-            return (Primitives.isWrapperType(str.getClass()) || str instanceof String);
-        } else {
-            return true;
+    public static Object getValue(Object obj) {
+        if (obj != null) {
+            if (obj instanceof String) {
+                return "'" + obj + "'";
+            } else if (!Primitives.isWrapperType(obj.getClass())) {
+                return "[complex value]";
+            }
+            return obj;
         }
-    }
-
-    public static <T> boolean isStringValue(T str) {
-        if (str != null) {
-            return str instanceof String;
-        }
-        return false;
+        return null;
     }
 }

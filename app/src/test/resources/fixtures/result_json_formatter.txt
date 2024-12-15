@@ -1,72 +1,72 @@
 [ {
-  "firstValue" : [ "a", "b", "c" ],
   "key" : "chars1",
-  "status" : "unchanged"
+  "status" : "unchanged",
+  "value" : [ "a", "b", "c" ]
 }, {
-  "firstValue" : [ "d", "e", "f" ],
   "key" : "chars2",
-  "secondValue" : false,
-  "status" : "changed"
+  "status" : "changed",
+  "value1" : [ "d", "e", "f" ],
+  "value2" : false
 }, {
-  "firstValue" : false,
   "key" : "checked",
-  "secondValue" : true,
-  "status" : "changed"
+  "status" : "changed",
+  "value1" : false,
+  "value2" : true
 }, {
-  "firstValue" : null,
   "key" : "default",
-  "secondValue" : [ "value1", "value2" ],
-  "status" : "changed"
+  "status" : "changed",
+  "value1" : null,
+  "value2" : [ "value1", "value2" ]
 }, {
-  "firstValue" : 45,
   "key" : "id",
-  "secondValue" : null,
-  "status" : "changed"
+  "status" : "changed",
+  "value1" : 45,
+  "value2" : null
 }, {
-  "firstValue" : "value1",
   "key" : "key1",
-  "status" : "removed"
+  "status" : "removed",
+  "value" : "value1"
 }, {
   "key" : "key2",
-  "secondValue" : "value2",
-  "status" : "added"
+  "status" : "added",
+  "value" : "value2"
 }, {
-  "firstValue" : [ 1, 2, 3, 4 ],
   "key" : "numbers1",
-  "status" : "unchanged"
+  "status" : "unchanged",
+  "value" : [ 1, 2, 3, 4 ]
 }, {
-  "firstValue" : [ 2, 3, 4, 5 ],
   "key" : "numbers2",
-  "secondValue" : [ 22, 33, 44, 55 ],
-  "status" : "changed"
+  "status" : "changed",
+  "value1" : [ 2, 3, 4, 5 ],
+  "value2" : [ 22, 33, 44, 55 ]
 }, {
-  "firstValue" : [ 3, 4, 5 ],
   "key" : "numbers3",
-  "status" : "removed"
+  "status" : "removed",
+  "value" : [ 3, 4, 5 ]
 }, {
   "key" : "numbers4",
-  "secondValue" : [ 4, 5, 6 ],
-  "status" : "added"
+  "status" : "added",
+  "value" : [ 4, 5, 6 ]
 }, {
   "key" : "obj1",
-  "secondValue" : {
-    "isNested" : true,
-    "nestedKey" : "value"
-  },
-  "status" : "added"
+  "status" : "added",
+  "value" : {
+    "nestedKey" : "value",
+    "isNested" : true
+  }
 }, {
-  "firstValue" : "Some value",
   "key" : "setting1",
-  "secondValue" : "Another value",
-  "status" : "changed"
+  "status" : "changed",
+  "value1" : "Some value",
+  "value2" : "Another value"
 }, {
-  "firstValue" : 200,
   "key" : "setting2",
-  "secondValue" : 300,
-  "status" : "changed"
+  "status" : "changed",
+  "value1" : 200,
+  "value2" : 300
 }, {
-  "firstValue" : true,
   "key" : "setting3",
-  "secondValue" : "none",
-  "status" : "changed"
+  "status" : "changed",
+  "value1" : true,
+  "value2" : "none"
 } ]

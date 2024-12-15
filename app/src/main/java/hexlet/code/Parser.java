@@ -1,63 +1,31 @@
 package hexlet.code;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.google.common.collect.MapDifference;
-import com.google.common.collect.Maps;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.yaml.snakeyaml.Yaml;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeSet;
 
 public class Parser {
-    public static String parse(Map<String, Object> firstFileMap,
-                               Map<String, Object> secondFileMap,
-                               String format) throws JsonProcessingException {
-        var firstFileSet = new TreeSet<>(firstFileMap.keySet());
-        var secondFileSet = new TreeSet<>(secondFileMap.keySet());
-        firstFileSet.addAll(secondFileSet);
+    public static List<Map<String, Object>> parse(String content1,
+                                                  String content2,
+                                                  String extension)
+            throws JsonProcessingException {
+        Map<String, Object> map1 = new HashMap<>();
+        Map<String, Object> map2 = new HashMap<>();
 
-        MapDifference<String, Object> diff = Maps.difference(firstFileMap, secondFileMap);
-        Map<String, MapDifference.ValueDifference<Object>> entriesDiffering = diff.entriesDiffering();
-        Map<String, Object> entriesOnlyOnRight = diff.entriesOnlyOnRight();
-        Map<String, Object> entriesOnlyOnLeft = diff.entriesOnlyOnLeft();
-        Map<String, Object> entriesInCommon = diff.entriesInCommon();
-
-        List<Map<String, Object>> result = new ArrayList<>();
-        for (var key : firstFileSet) {
-            if (entriesDiffering.containsKey(key)) {
-                var left = entriesDiffering.get(key).leftValue();
-                var right = entriesDiffering.get(key).rightValue();
-                Map<String, Object> diffMap = new HashMap<>(Map.of(
-                        "key", key,
-                        "status", "changed"));
-                diffMap.put("firstValue", left);
-                diffMap.put("secondValue", right);
-                result.add(diffMap);
-            } else if (entriesOnlyOnRight.containsKey(key)) {
-                var right = entriesOnlyOnRight.get(key);
-                Map<String, Object> diffMap = new HashMap<>(Map.of(
-                        "key", key,
-                        "status", "added"));
-                diffMap.put("secondValue", right);
-                result.add(diffMap);
-            } else if (entriesOnlyOnLeft.containsKey(key)) {
-                var left = entriesOnlyOnLeft.get(key);
-                Map<String, Object> diffMap = Map.of(
-                        "key", key,
-                        "status", "removed",
-                        "firstValue", left);
-                result.add(diffMap);
-            } else if (entriesInCommon.containsKey(key)) {
-                var common = entriesInCommon.get(key);
-                Map<String, Object> diffMap = Map.of(
-                        "key", key,
-                        "status", "unchanged",
-                        "firstValue", common);
-                result.add(diffMap);
-            }
+        if (extension.equals("json")) {
+            ObjectMapper mapper = new ObjectMapper();
+            map1 = mapper.readValue(content1, new TypeReference<>() { });
+            map2 = mapper.readValue(content2, new TypeReference<>() { });
+        } else if (extension.equals("yaml") || extension.equals("yml")) {
+            Yaml yaml = new Yaml();
+            map1 = yaml.load(content1);
+            map2 = yaml.load(content2);
         }
-        return Formatter.chooseFormatter(result, format);
+        return List.of(map1, map2);
     }
 }

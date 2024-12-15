@@ -12,30 +12,30 @@ public class Stylish {
                 result.append("  - ")
                         .append(el.get("key"))
                         .append(": ")
-                        .append(el.get("firstValue"))
+                        .append(el.get("value1"))
                         .append(System.lineSeparator());
                 result.append("  + ")
                         .append(el.get("key"))
                         .append(": ")
-                        .append(el.get("secondValue"))
+                        .append(el.get("value2"))
                         .append(System.lineSeparator());
             } else if (el.get("status").equals("added")) {
                 result.append("  + ")
                         .append(el.get("key"))
                         .append(": ")
-                        .append(el.get("secondValue"))
+                        .append(el.get("value"))
                         .append(System.lineSeparator());
             } else if (el.get("status").equals("removed")) {
                 result.append("  - ")
                         .append(el.get("key"))
                         .append(": ")
-                        .append(el.get("firstValue"))
+                        .append(el.get("value"))
                         .append(System.lineSeparator());
             } else if (el.get("status").equals("unchanged")) {
                 result.append("    ")
                         .append(el.get("key"))
                         .append(": ")
-                        .append(el.get("firstValue"))
+                        .append(el.get("value"))
                         .append(System.lineSeparator());
             }
         }
