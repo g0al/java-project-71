@@ -5,41 +5,30 @@ import java.util.Map;
 
 public class Stylish {
     public static String stylish(List<Map<String, Object>> diff) {
-        var result = new StringBuilder();
-        result.append("{").append(System.lineSeparator());
+        StringBuilder result = new StringBuilder();
         for (var el : diff) {
+            String str = "";
             if (el.get("status").equals("changed")) {
-                result.append("  - ")
-                        .append(el.get("key"))
-                        .append(": ")
-                        .append(el.get("value1"))
-                        .append(System.lineSeparator());
-                result.append("  + ")
-                        .append(el.get("key"))
-                        .append(": ")
-                        .append(el.get("value2"))
-                        .append(System.lineSeparator());
+                str = String.format("  - %s: %s\n  + %s: %s\n",
+                        el.get("key"),
+                        el.get("value1"),
+                        el.get("key"),
+                        el.get("value2"));
             } else if (el.get("status").equals("added")) {
-                result.append("  + ")
-                        .append(el.get("key"))
-                        .append(": ")
-                        .append(el.get("value"))
-                        .append(System.lineSeparator());
+                str = String.format("  + %s: %s\n",
+                        el.get("key"),
+                        el.get("value"));
             } else if (el.get("status").equals("removed")) {
-                result.append("  - ")
-                        .append(el.get("key"))
-                        .append(": ")
-                        .append(el.get("value"))
-                        .append(System.lineSeparator());
+                str = String.format("  - %s: %s\n",
+                        el.get("key"),
+                        el.get("value"));
             } else if (el.get("status").equals("unchanged")) {
-                result.append("    ")
-                        .append(el.get("key"))
-                        .append(": ")
-                        .append(el.get("value"))
-                        .append(System.lineSeparator());
+                str = String.format("    %s: %s\n",
+                        el.get("key"),
+                        el.get("value"));
             }
+            result.append(str);
         }
-        result.append("}");
-        return result.toString();
+        return String.format("{\n%s}", result);
     }
 }

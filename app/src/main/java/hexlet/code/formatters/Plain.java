@@ -6,32 +6,23 @@ import java.util.Map;
 
 public class Plain {
     public static String plain(List<Map<String, Object>> diff) {
-        var result = new StringBuilder();
-
+        StringBuilder result = new StringBuilder();
         for (var el : diff) {
+            String str = "";
             if (el.get("status").equals("changed")) {
-                var value1 = el.get("value1");
-                var value2 = el.get("value2");
-                result.append("Property '")
-                        .append(el.get("key"))
-                        .append("' was updated. From ")
-                        .append(getValue(value1))
-                        .append(" to ")
-                        .append(getValue(value2))
-                        .append(System.lineSeparator());
-            } else if (el.get("status").equals("added")) {
-                var value = el.get("value");
-                result.append("Property '")
-                        .append(el.get("key"))
-                        .append("' was added with value: ")
-                        .append(getValue(value))
-                        .append(System.lineSeparator());
+                str = String.format("Property '%s' was updated. From %s to %s\n",
+                        el.get("key"),
+                        getValue(el.get("value1")),
+                        getValue(el.get("value2")));
             } else if (el.get("status").equals("removed")) {
-                result.append("Property '")
-                        .append(el.get("key"))
-                        .append("' was removed")
-                        .append(System.lineSeparator());
+                str = String.format("Property '%s' was removed\n",
+                        el.get("key"));
+            } else if (el.get("status").equals("added")) {
+                str = String.format("Property '%s' was added with value: %s\n",
+                        el.get("key"),
+                        getValue(el.get("value")));
             }
+            result.append(str);
         }
         return result.toString().trim();
     }

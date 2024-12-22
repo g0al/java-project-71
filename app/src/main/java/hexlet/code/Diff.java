@@ -1,58 +1,38 @@
 package hexlet.code;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.SortedMap;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 public class Diff {
-    public static List<Map<String, Object>> diff(List<Map<String, Object>> data) {
-        var map1 = data.get(0);
-        var map2 = data.get(1);
-
-        var set1 = new TreeSet<>(map1.keySet());
-        var set2 = new TreeSet<>(map2.keySet());
-        set1.addAll(set2);
+    public static List<Map<String, Object>> diff(Map<String, Object> map1,
+                                                 Map<String, Object> map2) {
+        var keys = new TreeSet<>(map1.keySet());
+        keys.addAll(map2.keySet());
 
         List<Map<String, Object>> result = new ArrayList<>();
 
-        for (var el : set1) {
-            if (!map1.containsKey(el)) {
-                Map<String, Object> diffMap = Map.of(
-                        "key", el,
-                        "status", "added",
-                        "value", map2.get(el));
-                SortedMap<String, Object> sortedMap = new TreeMap<>(diffMap);
-                result.add(sortedMap);
-            } else if (!map2.containsKey(el)) {
-                Map<String, Object> diffMap = Map.of(
-                        "key", el,
-                        "status", "removed",
-                        "value", map1.get(el));
-                SortedMap<String, Object> sortedMap = new TreeMap<>(diffMap);
-                result.add(sortedMap);
-            } else if (map1.containsKey(el) && map2.containsKey(el)) {
-                if (Objects.equals(map1.get(el), map2.get(el))) {
-                    Map<String, Object> diffMap = Map.of(
-                            "key", el,
-                            "status", "unchanged",
-                            "value", map1.get(el));
-                    SortedMap<String, Object> sortedMap = new TreeMap<>(diffMap);
-                    result.add(sortedMap);
-                } else {
-                    Map<String, Object> diffMap = new HashMap<>(Map.of(
-                            "key", el,
-                            "status", "changed"));
-                    diffMap.put("value1", map1.get(el));
-                    diffMap.put("value2", map2.get(el));
-                    SortedMap<String, Object> sortedMap = new TreeMap<>(diffMap);
-                    result.add(sortedMap);
-                }
+        for (var key : keys) {
+            Map<String, Object> diffMap = new LinkedHashMap<>();
+            diffMap.put("key", key);
+            if (!map1.containsKey(key)) {
+                diffMap.put("status", "added");
+                diffMap.put("value", map2.get(key));
+            } else if (!map2.containsKey(key)) {
+                diffMap.put("status", "removed");
+                diffMap.put("value", map1.get(key));
+            } else if (Objects.equals(map1.get(key), map2.get(key))) {
+                diffMap.put("status", "unchanged");
+                diffMap.put("value", map1.get(key));
+            } else {
+                diffMap.put("status", "changed");
+                diffMap.put("value1", map1.get(key));
+                diffMap.put("value2", map2.get(key));
             }
+            result.add(diffMap);
         }
         return result;
     }

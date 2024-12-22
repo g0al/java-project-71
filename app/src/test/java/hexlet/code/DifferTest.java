@@ -3,15 +3,15 @@ package hexlet.code;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 class DifferTest {
-    private static String resultNotFlatJson;
-    private static String resultNotFlatYaml;
+    private static String resultWithoutFormat;
     private static String resultPlainFormatter;
     private static String resultStylishFormatter;
     private static String resultJsonFormatter;
@@ -28,50 +28,24 @@ class DifferTest {
 
     @BeforeAll
     public static void beforeAll() throws Exception {
-        resultNotFlatJson = readFixture("result_json.txt");
-        resultNotFlatYaml = readFixture("result_yaml.txt");
+        resultWithoutFormat = readFixture("result_without_format.txt");
         resultStylishFormatter = readFixture("result_stylish_formatter.txt");
         resultPlainFormatter = readFixture("result_plain_formatter.txt");
         resultJsonFormatter = readFixture("result_json_formatter.txt");
     }
 
-    @Test
-    public void testNotFlatJson() throws Exception {
-        String filepath1 = "src/test/resources/file3.json";
-        String filepath2 = "src/test/resources/file4.json";
-        String diff = Differ.generate(filepath1, filepath2);
-        assertEquals(resultNotFlatJson, diff);
-    }
-
-    @Test
-    public void testNotFlatYaml() throws Exception {
-        String filepath1 = "src/test/resources/file3.yaml";
-        String filepath2 = "src/test/resources/file4.yaml";
-        String diff = Differ.generate(filepath1, filepath2);
-        assertEquals(resultNotFlatYaml, diff);
-    }
-
-    @Test
-    public void testPlainFormatter() throws Exception {
-        String filepath1 = "src/test/resources/file3.json";
-        String filepath2 = "src/test/resources/file4.json";
-        String diff = Differ.generate(filepath1, filepath2, "plain");
-        assertEquals(resultPlainFormatter, diff);
-    }
-
-    @Test
-    public void testStylishFormatter() throws Exception {
-        String filepath1 = "src/test/resources/file3.yaml";
-        String filepath2 = "src/test/resources/file4.yaml";
-        String diff = Differ.generate(filepath1, filepath2, "stylish");
-        assertEquals(resultStylishFormatter, diff);
-    }
-
-    @Test
-    public void testJsonFormatter() throws Exception {
-        String filepath1 = "src/test/resources/file3.json";
-        String filepath2 = "src/test/resources/file4.json";
-        String diff = Differ.generate(filepath1, filepath2, "json");
-        assertEquals(resultJsonFormatter, diff);
+    @ParameterizedTest
+    @ValueSource(strings = { "json", "yaml" })
+    public void testDiff(String ext) throws Exception {
+        String filepath1 = String.format("src/test/resources/file3.%s", ext);
+        String filepath2 = String.format("src/test/resources/file4.%s", ext);
+        String diff1 = Differ.generate(filepath1, filepath2, "plain");
+        String diff2 = Differ.generate(filepath1, filepath2, "stylish");
+        String diff3 = Differ.generate(filepath1, filepath2, "json");
+        String diff4 = Differ.generate(filepath1, filepath2);
+        assertEquals(resultPlainFormatter, diff1);
+        assertEquals(resultStylishFormatter, diff2);
+        assertEquals(resultJsonFormatter, diff3);
+        assertEquals(resultWithoutFormat, diff4);
     }
 }
